@@ -3,14 +3,18 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import cors from 'cors'
+import DB from 'src/db'
 
 class App {
   public app: express.Application = express()
   public api_version: string = process.env.API_VERSION || '1'
+  db: DB = new DB()
 
   constructor(controllers: Controller[], private port: number | string) {
     this.initMiddlewares()
     this.initControllers(controllers)
+
+    this.db.init()
   }
 
   private parseRequest() {
